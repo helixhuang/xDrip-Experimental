@@ -9,17 +9,19 @@
         android:required="true" />
     <uses-feature android:name="android.hardware.usb.host" />
 
+    <uses-permission android:name="com.google.android.permission.PROVIDE_BACKGROUND" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission-sdk-23 android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.BATTERY_STATS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission." />
+
 
     <application
         android:name=".xdrip"
@@ -33,11 +35,11 @@
             android:value="DexDrip.db" />
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="27" />
+            android:value="37" />
 
         <provider
             android:name="com.activeandroid.content.ContentProvider"
-            android:authorities="com.example"
+            android:authorities="@string/content_provider"
             android:exported="false" />
 
         <activity
@@ -46,6 +48,7 @@
             android:launchMode="singleInstance" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -60,6 +63,16 @@
             android:exported="true" >
         </service>
 
+        <service
+            android:name=".Services.WifiCollectionService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <service android:name=".wearintegration.WatchUpdaterService" android:exported="true" >
+            <intent-filter> <action android:name="com.google.android.gms.wearable.BIND_LISTENER" /> </intent-filter>
+        </service>
+
         <activity
             android:name=".Tables.BgReadingTable"
             android:label="Bg Readings Table" >
@@ -69,12 +82,20 @@
             android:label="Sensor Table" >
         </activity>
         <activity
+            android:name=".ImportDatabaseActivity"
+            android:label="Import Database" >
+        </activity>
+        <activity
             android:name=".AddCalibration"
             android:label="@string/title_activity_add_calibration" >
         </activity>
         <activity
             android:name=".StartNewSensor"
             android:label="@string/title_activity_start_new_sensor" >
+        </activity>
+        <activity
+            android:name=".NewSensorLocation"
+            android:label="@string/title_activity_new_sensor_location" >
         </activity>
         <activity
             android:name=".StopSensor"
@@ -104,8 +125,24 @@
         </service>
 
         <activity
+            android:name=".stats.StatsActivity"
+            android:label="Statistics" >
+        </activity>
+        <activity
+            android:name=".BGHistory"
+            android:label="BG History" >
+        </activity>
+        <activity
+            android:name=".SnoozeActivity"
+            android:label="@string/title_snooze" >
+        </activity>
+        <activity
             android:name=".FakeNumbers"
             android:label="@string/title_activity_fake_numbers" >
+        </activity>
+        <activity
+            android:name=".EditAlertActivity"
+            android:label="@string/title_activity_edit_alert" >
         </activity>
         <activity
             android:name=".DoubleCalibrationActivity"
@@ -118,10 +155,6 @@
         <activity
             android:name=".CalibrationGraph"
             android:label="@string/title_activity_calibration_graph" >
-        </activity>
-        <activity
-            android:name=".SettingsActivity"
-            android:label="Settings" >
         </activity>
         <activity
             android:name=".LicenseAgreementActivity"
@@ -145,6 +178,12 @@
 
         <service
             android:name=".Services.DexShareCollectionService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <service
+            android:name=".Services.G5CollectionService"
             android:enabled="true"
             android:exported="true" >
         </service>
@@ -173,13 +212,54 @@
         </receiver>
 
         <service
-            android:name=".widgetUpdateService"
+            android:name=".WidgetUpdateService"
             android:enabled="true"
             android:exported="true" >
         </service>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="193dbc121e25e5f3e71bb98164ec074378e339df" />
+
+        <activity
+            android:name=".AlertList"
+            android:label="@string/title_activity_alert_list" />
+        <activity
+            android:name=".ErrorsActivity"
+            android:label="Error List" />
+        <activity
+            android:name=".MissedReadingActivity"
+            android:label="Configure Missed Readings" />
+        <activity
+            android:name=".FollowerManagementActivity"
+            android:label="Manage Followers" />
+        <activity
+            android:name=".utils.SdcardImportExport"
+            android:noHistory="true"
+            android:label="Settings on external storage" />
+
+        <service
+            android:name=".Services.SnoozeOnNotificationDismissService"
+            android:exported="false" >
+        </service>
+        <service
+            android:name=".Services.MissedReadingService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name=".UtilityModels.Notifications"
+            android:exported="false" >
+        </service>
+        <service
+            android:name=".UtilityModels.PebbleSync"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name=".Services.DailyIntentService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

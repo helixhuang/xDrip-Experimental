@@ -3,8 +3,6 @@
 
     <string name="pref_I_understand_title"> I UNDERSTAND AND AGREE</string>
     <string name="pref_I_understand_summery">xDrip MUST NOT BE USED TO MAKE MEDICAL DECISIONS. THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM “AS IS” WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION. </string>
-    <string name="app_name">xDrip</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_bluetooth_scan">BluetoothScan</string>
     <string name="connected">Connected</string>
@@ -13,6 +11,9 @@
     <string name="menu_stop">Stop</string>
     <string name="menu_refresh">Refresh</string>
     <string name="menu_export_database">Export database</string>
+    <string name="menu_export_csv_sidiary">Export CSV (SiDiary format)</string>
+    <string name="menu_toggle_speakreadings">Speak-Readings</string>
+    <string name="menu_import_db">Import database</string>
     <string name="error_bluetooth_not_supported">Error: Bluetooth not supported by this device</string>
     <string name="unknown_device">Unrecognized Device</string>
     <string name="connecting_to_device">Connecting to device</string>
@@ -20,6 +21,7 @@
     <string name="title_activity_calculated_data_table">CalculatedDataTable</string>
     <string name="title_activity_add_calibration">AddCalibration</string>
     <string name="title_activity_start_new_sensor">StartNewSensor</string>
+    <string name="title_activity_new_sensor_location">NewSensorLocation</string>
     <string name="title_activity_stop_sensor">StopSensor</string>
     <string name="title_activity_nav_drawer">NavDrawer</string>
     <string name="title_section1">Home</string>
@@ -35,6 +37,12 @@
     <string name="action_example">Example action</string>
     <string name="title_activity_calibration_check_in">CalibrationCheckInActivity</string>
     <string name="title_activity_usb_connected">UsbConnectedActivity</string>
+    <string name="snooze">Snooze</string>
+    <string name="snooze_hint">Snooze alert for x minutes</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="no">No</string>
+    <string name="pref_sensor_location_dont_ask_again"> Don\'t ask me that again</string>
 
     <string-array name="menu_options">
         <item>Dex Drip</item>
@@ -50,10 +58,16 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_calibration_data_table">CalibrationDataTable</string>
     <string name="title_activity_fake_numbers">FakeNumbers</string>
+    <string name="title_activity_edit_alert">EditAlert</string>
+    <string name="title_snooze">Snooze</string>
     <string name="title_activity_double_calibration">DoubleCalibrationActivity</string>
     <string name="title_activity_calibration_override">CalibrationOverride</string>
     <string name="title_activity_calibration_graph">CalibrationGraph</string>
     <string name="pref_header_cloud_storage">Cloud Storage</string>
+    <string name="auto_configure_title">Auto configure</string>
+    <string name="prefs_auto_config_summary">Auto configure using a barcode. See http://nightscout.github.io/pages/configure/ for more details</string>
+    <string name="scan_share2_barcode">Scan Share Barcode</string>
+    <string name="pref_share2_scan_barcode_summary">Or scan the barcode on the share receiver</string>
 
     <!-- MongoDB Settings -->
     <string name="pref_title_mongodb">MongoDB</string>
@@ -78,11 +92,22 @@
     <string name="pref_title_api_url">Base URL</string>
     <string name="pref_dialog_api_url">Enter Base API URL</string>
     <string name="pref_message_api_url">This only the base URL, the uploader will automatically append /entries for the POST.  API_SECRET on the server should match yourpassphrase in this setting.</string>
-    <string name="pref_default_api_url">yourpassphrase@https://{YOUR-SITE}.azurewebsites.net/api/v1</string>
+    <string name="pref_default_api_url">https://yourpassphrase@{YOUR-SITE}.azurewebsites.net/api/v1/</string>
 
     <!-- wifi Settings -->
     <string name="wifi_recievers_dialog_message">Comma separated list of ip:port (for example 37.142.132.220:50005,37.142.132.220:50010,mongodb://user:pass@ds053958.mongolab.com:53958/db/collection)</string>
     <string name="wifi_recievers_dialog_title">Enter ip addresses and ports of receivers (including mongodb addresses if needed)</string>
+
+    <!-- xDrip Viewer Settings -->
+    <string name="xdrip_viewer_ns_message_message">Enter nighscout site name and key. For example https://{YOUR-SITE}.azurewebsites.net</string>
+    <string name="xdrip_viewer_ns_dialog_title">Nightscout rest api parameters, and secret key.</string>
+    <string name="xdrip_viewer_ns_example">https://{YOUR-SITE}.azurewebsites.net</string>
+    
+    <!-- Location Settings -->
+    <string name="location_not_found_title">Location Is Not Enabled</string>
+    <string name="location_not_found_message">For Bluetooth discovery to work on newer devices, location must be enabled. xDrip does not track your location and it can be disabled after pairing is successful.</string>
+    <string name="location_yes">Enable</string>
+    <string name="location_no">No</string>
 
     <!-- broadcast settings -->
     <string name="pref_title_broadcast_enabled">Broadcast locally</string>
@@ -93,5 +118,26 @@
     <string name="toast_crash">Something went wrong :( a report has been sent to help fix the issue.</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
-
+    <string name="title_activity_alert_list">AlertList</string>
+    <string name="import_db_warning">
+        WARNING: Importing a database might cause SEVERE DATA LOSS. If you don\'t know why you want to use the import, don\'t use it.
+        In regular operation of xDrip it is not needed. Just use it in case of previous data loss.
+        If you are not sure what to do, in case you still want to use the import, please ask an expert user.\n\n
+        Instructions:\n
+        Place the database you want to install in the directory \'xdrip\' on your primary external storage
+        (sometimes called \'internal storage\' by the file browser).
+        It is the same directory xDrip exports to.\n
+        In case you have a zipped export in this directory, unzip it (usually longpress->extract on the file in the file browser).
+        If it gets extracted to a subdirectory it will still be found by the import.\n\n
+        After having placed the file, start this import routine.
+        Scroll to the correct database name, click on it and follow the instructions on the screen.  \n\n
+        ATTENTION: A Database can only be imported if it has the same database version number currently needed for this xDrip version.
+        The database verions number may change with xDrip updates.
+        It is best to import the database with the same version of the xDrip app it was exported and then update xDrip.
+    </string>
+    <string name="action_resend_to_watch">Resend glucose to watch</string>
+    <string name="action_open_watch_setting">Open Settings on Wear</string>
+    <string name="prev_arrow"><![CDATA[<<]]></string>
+    <string name="next_arrow"><![CDATA[>>]]></string>
+    <string name="export_submenu">Im-/Export...</string>
 </resources>

@@ -1,38 +1,22 @@
 package com.eveningoutpost.dexdrip;
 
 import android.app.Application;
+import android.preference.PreferenceManager;
+import android.content.Context;
+import android.content.Intent;
+import android.support.multidex.MultiDex;
+
+import com.eveningoutpost.dexdrip.Services.MissedReadingService;
 
 import com.crashlytics.android.Crashlytics;
+import com.eveningoutpost.dexdrip.UtilityModels.CollectionServiceStarter;
+import com.eveningoutpost.dexdrip.UtilityModels.IdempotentMigrations;
+
 import io.fabric.sdk.android.Fabric;
-import org.acra.ACRA;
-import org.acra.ReportField;
-import org.acra.ReportingInteractionMode;
-import org.acra.annotation.ReportsCrashes;
-import org.acra.sender.HttpSender;
 
 /**
  * Created by stephenblack on 3/21/15.
  */
-@ReportsCrashes(
-        formUri = "https://yoursolace.cloudant.com/acra-xdrip/_design/acra-storage/_update/report",
-        reportType = HttpSender.Type.JSON,
-        httpMethod = HttpSender.Method.POST,
-        formUriBasicAuthLogin = "nateriverldstiondrephery",
-        formUriBasicAuthPassword = "GEK5Nv7NtMkloAkufNvFgast",
-        formKey = "", // This is required for backward compatibility but not used
-        customReportContent = {
-                ReportField.APP_VERSION_CODE,
-                ReportField.APP_VERSION_NAME,
-                ReportField.ANDROID_VERSION,
-                ReportField.PACKAGE_NAME,
-                ReportField.REPORT_ID,
-                ReportField.BUILD,
-                ReportField.STACK_TRACE
-        },
-        mode = ReportingInteractionMode.TOAST,
-        logcatArguments = {"-t", "500", "-v", "time"},
-        resToastText = R.string.toast_crash
-)
 
 public class xdrip extends Application {
 
@@ -40,7 +24,21 @@ public class xdrip extends Application {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
-        // The following line triggers the initialization of ACRA
-        //ACRA.init(this);
+        Context context = getApplicationContext();
+        CollectionServiceStarter collectionServiceStarter = new CollectionServiceStarter(context);
+        collectionServiceStarter.start(getApplicationContext());
+        PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
+        PreferenceManager.setDefaultValues(this, R.xml.pref_data_sync, false);
+        PreferenceManager.setDefaultValues(this, R.xml.pref_notifications, false);
+        PreferenceManager.setDefaultValues(this, R.xml.pref_data_source, false);
+        context.startService(new Intent(context, MissedReadingService.class));	
+        new IdempotentMigrations(getApplicationContext()).performAll();
     }
+
+    @Override
+    public void attachBaseContext(Context base) {
+        MultiDex.install(base);
+        super.attachBaseContext(base);
+    }
+
 }

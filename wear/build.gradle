@@ -1,0 +1,51 @@
+apply plugin: 'com.android.application'
+
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "com.eveningoutpost.dexdrip"
+        minSdkVersion 20
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0.2"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    publishNonDefault true
+
+    productFlavors {
+        xdrip {
+            applicationId = "com.eveningoutpost.dexdrip"
+            resValue "string", "label_xdrip", "xDrip"
+            resValue "string", "label_xdrip_large", "xDrip(Large)"
+            resValue "string", "label_xdrip_big_chart", "xDrip(BigChart)"
+            resValue "string", "label_xdrip_circle", "xDrip(Circle)"
+            resValue "string", "label_xdrip_activity", "XDrip Prefs."
+            resValue "string", "app_settings", "xDrip Settings"
+        }
+        xdripviewer {
+            applicationId = "com.eveningoutpost.dexdrip.viewer"
+            resValue "string", "label_xdrip", "xDripV"
+            resValue "string", "label_xdrip_large", "xDripV(Large)"
+            resValue "string", "label_xdrip_big_chart", "xDripV(BigChart)"
+            resValue "string", "label_xdrip_circle", "xDripV(Circle)"
+            resValue "string", "label_xdrip_activity", "XDripV Prefs."
+            resValue "string", "app_settings", "xDrip Viewer Settings"
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.ustwo.android:clockwise-wearable:1.0.2'
+    compile 'com.google.android.support:wearable:1.1.0'
+    compile 'com.google.android.gms:play-services-wearable:7.3.0'
+}

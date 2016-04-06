@@ -1,22 +1,18 @@
 package com.eveningoutpost.dexdrip.Services;
-import java.io.IOException;
-import java.net.UnknownHostException;
-
-import android.util.Log;
+import com.eveningoutpost.dexdrip.Models.UserError.Log;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoException;
 import com.mongodb.MongoClientURI;
+import com.mongodb.MongoException;
 
+import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 public class MongoWrapper {
 
@@ -40,7 +36,7 @@ public class MongoWrapper {
 	// Unfortunately, this also throws other exceptions that are not documetned...
     public DBCollection openMongoDb() throws UnknownHostException {
 
-    	MongoClientURI dbUri = new MongoClientURI(dbUriStr_); //?? thros
+    	MongoClientURI dbUri = new MongoClientURI(dbUriStr_+"?socketTimeoutMS=180000");
 	    mongoClient_ = new MongoClient(dbUri);
 
 	    DB db = mongoClient_.getDB( dbName_ );
@@ -79,13 +75,13 @@ public class MongoWrapper {
          	coll.insert(bdbo);
 
  		} catch (UnknownHostException e) {
- 		   Log.e(TAG, "WriteToMongo cought UnknownHostException! ",e);
+ 		   Log.e(TAG, "WriteToMongo caught UnknownHostException! ",e);
  			return false;
  		} catch (MongoException e) {
- 		   Log.e(TAG, "WriteToMongo cought MongoException! ", e);
+ 		   Log.e(TAG, "WriteToMongo caught MongoException! ", e);
  			return false;
  		} catch (Exception e) {
- 		   Log.e(TAG, "WriteToMongo cought Exception! ", e);
+ 		   Log.e(TAG, "WriteToMongo caught Exception! ", e);
  			closeMongoDb();
  			return false;
  		}
@@ -110,7 +106,7 @@ public class MongoWrapper {
             try {
                 while(cursor.hasNext() && trd_list.size() < numberOfRecords) {
                     //System.out.println(cursor.next());
-                    Log.e(TAG, "Read an object from mongodb");
+                    Log.d(TAG, "Read an object from mongodb");
                     TransmitterRawData trd = new TransmitterRawData((BasicDBObject)cursor.next());
                     // Do our best to fix the relative time...
                     trd.RelativeTime = new Date().getTime() - trd.CaptureDateTime;
@@ -132,13 +128,13 @@ public class MongoWrapper {
              }
 
         } catch (UnknownHostException e) {
-            Log.e(TAG, "ReadFromMongo: cought UnknownHostException! ", e);
+            Log.e(TAG, "ReadFromMongo: caught UnknownHostException! ", e);
             return null;
         } catch (MongoException e) {
-            Log.e(TAG, "ReadFromMongo: cought MongoException! " , e);
+            Log.e(TAG, "ReadFromMongo: caught MongoException! " , e);
             return trd_list;
         } catch (Exception e) {
-  		      Log.e(TAG, "ReadFromMongo: cought Exception! " , e);
+  		      Log.e(TAG, "ReadFromMongo: caught Exception! " , e);
   		      closeMongoDb();
  			return null;
  		}finally {
